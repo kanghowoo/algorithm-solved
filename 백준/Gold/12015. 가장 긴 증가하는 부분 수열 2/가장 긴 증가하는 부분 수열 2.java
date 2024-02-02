@@ -1,36 +1,39 @@
 import java.util.Scanner;
 
 public class Main {
+
     static int[] dp;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int N = scanner.nextInt();
         int[] arr = new int[N];
-        dp = new int[N + 1];
 
         for (int i = 0; i < N; i++) {
             arr[i] = scanner.nextInt();
         }
 
+        dp = new int[N];
+        dp[0] = arr[0];
+
+        int len = 1;
         int idx = 0;
-        int num = 0;
         for (int i = 0; i < N; i++) {
-            if (dp[idx] < arr[i]) {
-                idx += 1;
-                dp[idx] = arr[i];
+            if (dp[len - 1] < arr[i]) {
+                dp[len] = arr[i];
+                len += 1;
             } else {
-                num = findIndexByBinarySearch(0, idx, arr[i]);
-                dp[num] = arr[i];
+                idx = searchIndex(0, len, arr[i]);
+                dp[idx] = arr[i];
             }
         }
 
-        System.out.println(idx);
-
+        System.out.println(len);
     }
 
-    private static int findIndexByBinarySearch(int left, int right, int target) {
+    private static int searchIndex(int left, int right, int target) {
         int mid = 0;
+
         while (left < right) {
             mid = (left + right) / 2;
             if (dp[mid] < target) {
@@ -39,6 +42,7 @@ public class Main {
                 right = mid;
             }
         }
+
         return right;
     }
 }
