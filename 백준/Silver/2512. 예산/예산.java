@@ -20,32 +20,31 @@ public class Main {
         int left = 1;
         int right = budgets[N - 1];
 
-        int mid;
-        int max = 0;
-        int result = 0;
-
         if (sum <= M) {
             System.out.println(right);
             return;
         }
 
+        int result = 0;
+        int mid;
         while (left <= right) {
+            long budget = 0;
+
             mid = (left + right) / 2;
 
-            long total = 0;
             for (int i = 0; i < N; i++) {
-                total += Math.min(budgets[i], mid);
+                budget += Math.min(mid, budgets[i]);
             }
 
-            if (total <= M) {
+            if (M >= budget) {
                 left = mid + 1;
-                max = Math.max(max, mid);
+                result = Math.max(result, mid);
             } else {
                 right = mid - 1;
             }
-
         }
 
-        System.out.println(max);
+        System.out.println(result);
+
     }
 }
