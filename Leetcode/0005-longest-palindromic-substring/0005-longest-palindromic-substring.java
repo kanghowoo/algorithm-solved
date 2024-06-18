@@ -1,38 +1,30 @@
 class Solution {
 
-    private boolean isPalindrom(String s) {
-        for (int i = 0; i < s.length() / 2; i++ ) {
-            if (s.charAt(i) != s.charAt(s.length() - 1 - i)) {
+    public static boolean isPalindrome(String str, int start, int end) {
+        while (start <= end) {
+            if (str.charAt(start++) != str.charAt(end--)) {
                 return false;
             }
         }
+
         return true;
     }
-
-    private List<Integer> getAllIndexes(String s, char letter, int offset) {
-        List<Integer> indexes = new ArrayList();
-        for (int i = s.length() - 1; i >= 0; i--) {
-            if (s.charAt(i) == letter) {
-                indexes.add(i + offset);
-            }
-        }
-        return indexes;
-    }
-    
     public String longestPalindrome(String s) {
+        int len = s.length();
         String result = "";
-        for (int i = 0; i < s.length(); i++) {
-            List<Integer> indexes = getAllIndexes(s.substring(i), s.charAt(i), i);
-            for (Integer index: indexes) {
-                if (isPalindrom(s.substring(i, index + 1))) {
-                    if (result.length() < s.substring(i, index + 1).length()) {
-                        result = s.substring(i, index + 1);
+
+        for (int i = len; i > 0; i--) {
+            for (int j = 0; j + i <= len; j++) {
+                if (isPalindrome(s, j, j+i-1)) {
+                    if (result.length() < s.substring(j, j+i).length()) {
+                        result = s.substring(j, j+i);
                     }
                     break;
                 }
             }
         }
-        return result;
-    }
 
+        return result;
+
+    }
 }
