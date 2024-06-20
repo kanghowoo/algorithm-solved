@@ -24,6 +24,9 @@ class Solution {
             if (!Character.isDigit(s.charAt(index))) break;
             int digit = s.charAt(index) - '0';
 
+            //overflow 되기 전 체크 (result가 214748365라고 가정)
+            //result    = 214748365 
+            //MAX_VAVUE = 2147483647
             if (result > (Integer.MAX_VALUE / 10) || (result == (Integer.MAX_VALUE / 10) && (digit > Integer.MAX_VALUE % 10))) {
                 return isNegative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             }
