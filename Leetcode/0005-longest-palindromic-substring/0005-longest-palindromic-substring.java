@@ -1,13 +1,12 @@
 class Solution {
 
-    private boolean isPalindrome(String s) {
-        int left = 0, right = s.length() - 1;
-        while (left < right) {
-            if (s.charAt(left) != s.charAt(right)) {
+    private boolean isPalindrome(String s, int start, int end) {
+        while (start < end) {
+            if (s.charAt(start) != s.charAt(end)) {
                 return false;
             }
-            left++;
-            right--;
+            start++;
+            end--;
         }
 
         return true;
@@ -15,14 +14,15 @@ class Solution {
 
     public String longestPalindrome(String s) {
         String answer = "";
-        int max = 0;
 
-        for (int i = 0; i < s.length(); i++) {
-            for (int j = i + 1; j <= s.length(); j++) {
-                String str = s.substring(i,j);
-                if (isPalindrome(str) && max < str.length()) {
-                        answer = str;
-                        max = str.length();
+        for (int i = s.length(); i > 0; i--) {
+            for (int j = 0; j + i < s.length(); j++) {
+                if (isPalindrome(s, j, j + i)) {
+                    if (answer.length() < s.substring(j, j + i + 1).length()) {
+                        System.out.println("in here");
+                        answer = s.substring(j, j + i + 1);
+                    }
+                    break;
                 }
             }
         }
