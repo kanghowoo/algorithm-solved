@@ -1,11 +1,9 @@
-import java.util.*;
-
 class Tile {
     int x;
     int y;
-    char c;
+    int c;
 
-    public Tile(int x, int y, char c) {
+    public Tile(int x, int y, int c) {
         this.x = x;
         this.y = y;
         this.c = c;
@@ -13,48 +11,45 @@ class Tile {
 }
 
 class Solution {
+    static int m;
+    static int n;
 
     public int numIslands(char[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        int count = 0;
-
+        m = grid.length;
+        n = grid[0].length;
+        int result = 0;
 
         for (int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
+            for (int j = 0; j < n; j++) {
                 if (grid[i][j] == '1') {
-                    count++;
-                    bfs(grid, i, j);
+                    result++;
+                    dfs(grid, i, j);
                 }
             }
         }
 
-        return count;
+        return result;
     }
 
+    private void dfs(char[][] grid, int x, int y) {
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
 
-    private void bfs(char[][] grid, int x, int y) {
-        Queue<Tile> q = new LinkedList<Tile>();
-        int m = grid.length;
-        int n = grid[0].length;
-        q.offer(new Tile(x, y, '1'));
+        Queue<Tile> tiles = new ArrayDeque();        
+        tiles.offer(new Tile(x, y, '1'));
 
-        int[] dx = {-1, 0, 1, 0};
-        int[] dy = {0, 1, 0, -1};
-
-        while (!q.isEmpty()) {
-            Tile tile = q.poll();
+        while (!tiles.isEmpty()) {
+            Tile tile = tiles.poll();
 
             for (int i = 0; i < 4; i++) {
-                int newX = tile.x + dx[i];
-                int newY = tile.y + dy[i];
+                int nx = tile.x + dx[i];
+                int ny = tile.y + dy[i];
 
-                if (newX < m && newX >= 0 && newY < n && newY >= 0 && grid[newX][newY] == '1') {
-                    q.offer(new Tile(newX, newY, '1'));
-                    grid[newX][newY] = '0';
+                if (nx >= 0 && ny >= 0 && nx < m && ny < n && grid[nx][ny] == '1') {
+                    tiles.offer(new Tile(nx, ny, '1'));
+                    grid[nx][ny] = '0';
                 }
             }
         }
     }
-
 }
